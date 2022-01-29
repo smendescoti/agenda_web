@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import emailValidation from '../../validations/email-validation';
 import passwordValidation from '../../validations/password-validation';
 import * as services from '../../services/account-services';
+import * as helper from '../../helpers/auth-helper';
 
 export default function LoginForm() {
+
+    //declarando as variáveis do componente
+    const [mensagemErro, setMensagemErro] = useState('');
 
     //criando a estrutura para declaração de formulário
     const {
@@ -18,23 +22,45 @@ export default function LoginForm() {
 
     //função para executar o evento SUBMIT do formulario
     const onSubmit = (data) => { //data -> campos preenchidos no formulário
-        
+
         //fazendo o envio dos dados para a API
         services.postLogin(data)
             .then( //retorno de sucesso
                 result => {
-                    console.log(result);
+                    
+                    //gravar os dados em local storage
+                    helper.signIn(result);
+
                 }
             )
             .catch( //retorno de erro
                 e => {
                     console.log(e.response);
+
+                    switch (e.response.status) {
+
+                        case 401:
+                            setMensagemErro(e.response.data);
+                            break;
+
+                        default:
+                            setMensagemErro('Operação não pôde ser realizada');
+                            break;
+                    }
+
                 }
             )
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+
+            {
+                mensagemErro && <div className='alert alert-danger mt-2'>
+                    <strong>{mensagemErro}</strong>
+                </div>
+            }
+
             <div className='mb-3'>
                 <label>Email de acesso:</label>
 
