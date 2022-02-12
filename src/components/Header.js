@@ -13,7 +13,7 @@ export default function Header() {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <NavLink className="nav-link active" aria-current="page"
-                                to="/acessar-conta">
+                                to="/">
                                 Acessar Conta
                             </NavLink>
                         </li>
@@ -22,6 +22,25 @@ export default function Header() {
                                 to="/crie-sua-conta">
                                 Crie sua Conta
                             </NavLink>
+                        </li>
+                        <li className='nav-item dropdown'>
+                            <a className='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                Gerenciar Contatos
+                            </a>
+                            <ul className='dropdown-menu' aria-labelledby='navbarDropdown'>
+                                <li>
+                                    <NavLink className="dropdown-item"
+                                        to="/cadastrar-contatos">
+                                        Cadastrar Contatos
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item"
+                                        to="/consultar-contatos">
+                                        Consultar Contatos
+                                    </NavLink>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
