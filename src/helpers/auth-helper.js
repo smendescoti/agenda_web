@@ -40,3 +40,12 @@ export const getAccessToken = () => {
 export const signOut = () => {
     return localStorage.removeItem('USER_AUTH');
 }
+
+/*
+    função para verificar se o usuário
+    está autenticado na API
+*/
+export const isLoggedIn = () => {
+    return localStorage.getItem('USER_AUTH') != null;
+}
+

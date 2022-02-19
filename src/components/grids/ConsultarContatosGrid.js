@@ -16,10 +16,10 @@ export default function ConsultarContatosGrid() {
                 result => {
 
                     //inicializando o datatable
-                    $(document).ready(function(){
+                    $(document).ready(function () {
                         $("#tabela").DataTable({
                             language: {
-                                url : 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json'
+                                url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json'
                             }
                         })
                     });
@@ -32,6 +32,26 @@ export default function ConsultarContatosGrid() {
                     console.log(e.response);
                 }
             )
+    }
+
+    //função para excluir um contato
+    const excluirContato = (idContato) => {
+
+        if(window.confirm('Deseja realmente excluir o contato?')){
+
+            contatosService.deleteContato(idContato)
+                .then(
+                    result => {
+                        alert(result.message);
+                        window.location.reload();
+                    }
+                )
+                .catch(
+                    e => {
+                        console.log(e);
+                    }
+                )
+        }
     }
 
     //evento do REACT HOOKS para execução
@@ -64,11 +84,17 @@ export default function ConsultarContatosGrid() {
                                         <td>{contato.email}</td>
                                         <td>{contato.telefone}</td>
                                         <td>
-                                            <a href='#' className='btn btn-primary btn-sm'>
+                                            <a href='#' className='btn btn-primary btn-sm'
+                                                onClick={
+                                                    () => window.location.href = `/editar-contatos?id=${contato.idContato}`
+                                                }>
                                                 Alterar
                                             </a>
                                             &nbsp;
-                                            <a href='#' className='btn btn-danger btn-sm'>
+                                            <a href='#' className='btn btn-danger btn-sm'
+                                                onClick={
+                                                    () => excluirContato(contato.idContato)
+                                                }>
                                                 Excluir
                                             </a>
                                         </td>
